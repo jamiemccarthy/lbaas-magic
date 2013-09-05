@@ -1,0 +1,73 @@
+# stuffs for creating the saltmaster vm
+saltmaster_inputs:
+    saltmaster_user: user for creating saltmaster 
+    saltmaster_password: pw for creating saltmaster 
+    saltmaster_tenant: tenant for creating salt master 
+    saltmaster_auth_url: nova auth url
+    saltmaster_region: region 
+    saltmaster_name : saltmaster vm name 
+    saltmaster_secgroup : default
+    saltmaster_keypair : keypair to use creating saltmaster 
+    saltmaster_image : image_id 
+    saltmaster_flavor : flavor_id 
+# pillar data that will bootstrap the saltmaster
+saltmaster_pillar:
+    lbaas-saltmaster-id-rsa-pub:  |
+        <ur text here>
+    lbaas-saltmaster-id-rsa:  |
+        <ur other text here>
+    saltmaster_ip: 0
+    saltmaster_openstack_tenant: tenant for salt cloud 
+    saltmaster_openstack_user: user for salt cloud 
+    saltmaster_openstack_sshkey_name: keypair for salt cloud 
+    saltmaster_openstack_sshkey_path: /root/.ssh/id_rsa
+    saltmaster_openstack_password: pw for salt cloud 
+    saltmaster_openstack_secgroup: default
+    lbaas_mysql_port: 3306
+    lbaas_local_mysql_user: local user for mysql <minion config 
+    lbaas_local_mysql_pw:   local user pw
+    lbaas_api_mysql_user: name of api database user 
+    lbaas_api_mysql_pw: pw for api database user 
+    lbaas_galera_rpl_user: galera_rpl_user
+    lbaas_galera_rpl_pw: galera_rpl_pw
+    lbaas_galera_cluster_name: my_galera_cluster
+    lbaas_galera_wsrep_sst_auth: galera_rpl_usr:galera_rpl_pw
+    use_beaver: False
+    galera_ssh: False
+    gearman_ssl: False
+    lbaas_api_admin_port: 8889
+    lbaas_gearman_port: 4730
+    lbaas_datadog_drivers: dummy database 
+    lbaas_datadog_api_key: apikey 
+    lbaas_datadog_app_key: appkey
+    lbaas_datadog_message_tail: your email / hipchat room 
+    lbaas_datadog_tags: service:lbaas
+    lbaas_datadog_env: stage
+    lbaas-nodes-user: user for libra_pool_mgm 
+    lbaas-nodes-pw: pw for libra_pool_mgm 
+    lbaas-nodes-tenant: tenant for libra_pool_mgm 
+    lbaas-nodes-keypair-name: keypair for libra_pool_mgm
+    lbaas-nodes-secgroup-name: pool_mgm secgroup name 
+    lbaas-nodes-image-size: haproxy device flavor id 
+    lbaas-pool-size: how many devices should pool_mgm have ready 
+    lbaas_api_swift_basepath: lbaaslogs
+    lbaas_api_swift_endpoint: swiftendpoint 
+    lbaas_api_ip_filters: allowed ip ranges 
+    lbaas_api_ssl_certfile_path: path_value 
+    lbaas_api_ssl_keyfile_path: path_value 
+    lbaas_api_keystone_service_protocol: keystone protocol 
+    lbaas_api_keystone_service_host: 127.0.0.1
+    lbaas_api_keystone_service_port: keystone port 
+    lbaas_api_keystone_service_id: service id 
+    lbaas_api_keystone_endpoint_template_ids: template_ids 
+    lbaas_api_keystone_auth_host: keystone host 
+    lbaas_api_keystone_auth_port: keystone port 
+    lbaas_api_keystone_auth_protocol: keystone protocol 
+    lbaas_api_keystone_auth_url: keystone url 
+    lbaas_api_keystone_certfile_path: path 
+    lbaas_api_keystone_ca_certs_path: path 
+    lbaas_api_keystone_cert_validation: False
+
+
+
+

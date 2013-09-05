@@ -15,8 +15,22 @@ The script will assist in:
 Setup:
 
 The magic requires some preliminary work on your part
-First of all, we expect that you have an HP Cloud account.
-Second, we expect that you have created a keypair for use with the salt-master / test environments
-Third, we expect you to have security group(s) created to allow the salt-master and libra infrastructure nodes to do their thing
+  - First of all, we expect that you have an HP Cloud account.
+  - Second, we expect that you have created a keypair for use with the salt-master / test environments
+  - Third, we expect you to have security group(s) created to allow the salt-master and libra infrastructure nodes to do their thing
+  - Fourth, that you have fabric, pyyaml, and python-novaclient installed
 
 We include a sample config file for guidance.
+
+To run:
+
+  - create saltmagic.cfg with the values filled out
+  - call the program: python saltmagic.py --verbose
+
+TODO:
+  - more cleanup (allow the user to hit a flag that will go in and clean up created vm's + the saltmaster once they are done
+  - more toggles
+    - allow for specification of states repo
+    - allow for specification of libra repo / ppa (?)
+    - more switches in salt-states
+    - clean this up

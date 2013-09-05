@@ -33,3 +33,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# mystuffs
+saltmagic.cfg
+bootstrap_pillar.sls
