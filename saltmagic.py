@@ -114,7 +114,7 @@ print "Now on to business."
 ##############################
 if args.createsaltmaster:
     logging.info("Creating vm instance for salt-master: %s..." %saltmaster_inputs['saltmaster_name'])
-    cmd = "nova --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %( saltmaster_inputs['saltmaster_user']
+    cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %( saltmaster_inputs['saltmaster_user']
                                       , saltmaster_inputs['saltmaster_tenant']
                                       , saltmaster_inputs['saltmaster_password']
                                       , saltmaster_inputs['saltmaster_region']
@@ -147,7 +147,7 @@ if args.createsaltmaster:
     attempts_remain = 120
     wait_time = 1
     while not saltmaster_ready and attempts_remain:
-        cmd = "nova --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' show %s" %( saltmaster_inputs['saltmaster_user']
+        cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' show %s" %( saltmaster_inputs['saltmaster_user']
                                       , saltmaster_inputs['saltmaster_tenant']
                                       , saltmaster_inputs['saltmaster_password']
                                       , saltmaster_inputs['saltmaster_region']
@@ -273,7 +273,7 @@ logging.info("\n%s" %result)
 ################
 if args.deletesaltmaster:
     logging.info("Deleting vm instance for salt-master: %s..." %saltmaster_inputs['saltmaster_name'])
-    cmd = "nova --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' delete %s" %( saltmaster_inputs['saltmaster_user']
+    cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' delete %s" %( saltmaster_inputs['saltmaster_user']
                                       , saltmaster_inputs['saltmaster_tenant']
                                       , saltmaster_inputs['saltmaster_password']
                                       , saltmaster_inputs['saltmaster_region']
