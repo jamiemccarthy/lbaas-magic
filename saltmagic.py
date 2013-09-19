@@ -18,6 +18,7 @@ import yaml
 import logging
 import argparse
 import commands
+import re
 
 ##########
 # parser
@@ -169,16 +170,20 @@ if args.createsaltmaster:
         logging.error("Salt-master vm: %s, id: %s not ACTIVE in %d seconds.  Fail!" %(saltmaster_inputs['saltmaster_name'], saltmaster_info['id'], (attempts_remain*wait_time)))
         sys.exit(1)
     saltmaster_info = {}
+    network_ips = []
     for line in result.split('\n')[3:-1]:
         data = line.split('|')
         key = data[1].strip()
         value = data[2].strip()
         saltmaster_info[key]=value
+        if re.search('dbaas.*network', key):
+            logging.info("found key %s, value %s" %(key, value))
+            network_ips = value.split(',')
     if args.verbose:
         logging.info("saltmaster_info:")
         for key, value in saltmaster_info.items():
                 logging.info("    %s: %s" %(key, value))
-    saltmaster_ip = [ipaddr.strip() for ipaddr in saltmaster_info['private network'].split(',') if ipaddr.strip().startswith('15.')][0]
+    saltmaster_ip = [ipaddr.strip() for ipaddr in network_ips if ipaddr.strip().startswith('15.')][0]
     logging.info("Saltmaster ip: %s" %saltmaster_ip)
     logging.info("Testing ssh readiness...")
     ssh_ready = False
