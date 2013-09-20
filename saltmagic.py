@@ -119,10 +119,10 @@ print "Now on to business."
 
 # set up keypair
 
+id_rsa_filename = "~/.ssh/id_rsa"
+id_rsa_filename_pub = id_rsa_filename + ".pub"
 key_comment = "lbaas-magic-key-"+hostname
 if args.createkeypair and not os.path.exists( id_rsa_filename ):
-    id_rsa_filename = "~/.ssh/id_rsa"
-    id_rsa_filename_pub = id_rsa_filename + ".pub"
     cmd = "ssh-keygen -f %s -C %s -N ''" % ( id_rsa_filename, key_comment )
     retcode, result = commands.getstatusoutput(cmd)
     logging.info(cmd)
