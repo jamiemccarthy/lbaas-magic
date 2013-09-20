@@ -104,10 +104,29 @@ if args.configfile:
     inputs_file.close()
 saltmaster_inputs = saltmagic_inputs['saltmaster_inputs']
 
+retcode, hostname = commands.getstatusout("hostname -s")
+
 print "Welcome to lbaas saltmagic, where we usher you into the wonderful world of tomorrow..."
 time.sleep(.5)
 print "Now on to business."
 #sys.exit(0)
+
+# set up keypair
+
+key_comment = "lbaas-magic-key-"+hostname
+if args.createkeypair and not os.path.exists( id_rsa_filename ):
+    id_rsa_filename = "~/.ssh/id_rsa"
+    id_rsa_filename_pub = id_rsa_filename + ".pub"
+    cmd = "ssh-keygen -f %s -C %s -N ''" % ( id_rsa_filename, key_comment )
+    retcode, result = commands.getstatusoutput(cmd)
+    logging.info(cmd)
+    logging.info(retcode)
+    logging.info("\n%s" % result)
+    cmd = "nova --insecure keypair-add --pub-key %s %s" % ( id_rsa_filename_pub, key_comment )
+    retcode, result = commands.getstatusoutput(cmd)
+    logging.info(cmd)
+    logging.info(retcode)
+    logging.info("\n%s" % result)
 
 ##############################
 # create salt-master instance
@@ -121,7 +140,7 @@ if args.createsaltmaster:
                                       , saltmaster_inputs['saltmaster_auth_url']
                                       , saltmaster_inputs['saltmaster_flavor']
                                       , saltmaster_inputs['saltmaster_image']
-                                      , saltmaster_inputs['saltmaster_keypair']
+                                      , key_comment
                                       , saltmaster_inputs['saltmaster_secgroup']
                                       , saltmaster_inputs['saltmaster_name'])
     retcode, result = commands.getstatusoutput(cmd)
