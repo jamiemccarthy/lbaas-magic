@@ -36,6 +36,12 @@ parser.add_argument( '--config'
                    , default = 'saltmagic.cfg'
                    , help = 'path to a config file containing options.  Command line options will supercede any options specified in the config'
                    )
+parser.add_argument( '--create-keypair'
+                   , action = 'store_true'
+                   , dest = 'createkeypair'
+                   , default = True
+                   , help = 'Flag to indicate that a keypair should be created, added via nova, and used as the saltmaster keypair'
+                   )
 parser.add_argument( '--create-saltmaster'
                    , action = 'store_true'
                    , dest = 'createsaltmaster'
@@ -104,7 +110,7 @@ if args.configfile:
     inputs_file.close()
 saltmaster_inputs = saltmagic_inputs['saltmaster_inputs']
 
-retcode, hostname = commands.getstatusout("hostname -s")
+retcode, hostname = commands.getstatusoutput("hostname -s")
 
 print "Welcome to lbaas saltmagic, where we usher you into the wonderful world of tomorrow..."
 time.sleep(.5)
