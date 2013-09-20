@@ -117,9 +117,18 @@ time.sleep(.5)
 print "Now on to business."
 #sys.exit(0)
 
+# set up nova arguments
+
+nova_args = "--insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s'" % ( saltmaster_inputs['saltmaster_user']
+    , saltmaster_inputs['saltmaster_tenant']
+    , saltmaster_inputs['saltmaster_password']
+    , saltmaster_inputs['saltmaster_region']
+    , saltmaster_inputs['saltmaster_auth_url']
+    )
+
 # set up keypair
 
-id_rsa_filename = "~/.ssh/id_rsa"
+id_rsa_filename = "/home/ubuntu/.ssh/id_rsa"
 id_rsa_filename_pub = id_rsa_filename + ".pub"
 key_comment = "lbaas-magic-key-"+hostname
 if args.createkeypair and not os.path.exists( id_rsa_filename ):
@@ -128,7 +137,7 @@ if args.createkeypair and not os.path.exists( id_rsa_filename ):
     logging.info(cmd)
     logging.info(retcode)
     logging.info("\n%s" % result)
-    cmd = "nova --insecure keypair-add --pub-key %s %s" % ( id_rsa_filename_pub, key_comment )
+    cmd = "nova " + nova_args + " keypair-add --pub-key %s %s" % ( id_rsa_filename_pub, key_comment )
     retcode, result = commands.getstatusoutput(cmd)
     logging.info(cmd)
     logging.info(retcode)
@@ -139,11 +148,7 @@ if args.createkeypair and not os.path.exists( id_rsa_filename ):
 ##############################
 if args.createsaltmaster:
     logging.info("Creating vm instance for salt-master: %s..." %saltmaster_inputs['saltmaster_name'])
-    cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %( saltmaster_inputs['saltmaster_user']
-                                      , saltmaster_inputs['saltmaster_tenant']
-                                      , saltmaster_inputs['saltmaster_password']
-                                      , saltmaster_inputs['saltmaster_region']
-                                      , saltmaster_inputs['saltmaster_auth_url']
+    cmd = "nova " + nova_args + " boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %(
                                       , saltmaster_inputs['saltmaster_flavor']
                                       , saltmaster_inputs['saltmaster_image']
                                       , key_comment
@@ -172,12 +177,7 @@ if args.createsaltmaster:
     attempts_remain = 120
     wait_time = 1
     while not saltmaster_ready and attempts_remain:
-        cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' show %s" %( saltmaster_inputs['saltmaster_user']
-                                      , saltmaster_inputs['saltmaster_tenant']
-                                      , saltmaster_inputs['saltmaster_password']
-                                      , saltmaster_inputs['saltmaster_region']
-                                      , saltmaster_inputs['saltmaster_auth_url']
-                                      , saltmaster_info['id'])
+        cmd = "nova " + nova_args + " show %s" % saltmaster_info['id']
         retcode, result = commands.getstatusoutput(cmd)
         for line in result.split('\n')[3:-1]:
             data = line.split('|')
@@ -298,12 +298,7 @@ logging.info("\n%s" %result)
 ################
 if args.deletesaltmaster:
     logging.info("Deleting vm instance for salt-master: %s..." %saltmaster_inputs['saltmaster_name'])
-    cmd = "nova --insecure --os-username='%s' --os-tenant-name='%s' --os-password='%s' --os-region-name='%s' --os-auth-url='%s' delete %s" %( saltmaster_inputs['saltmaster_user']
-                                      , saltmaster_inputs['saltmaster_tenant']
-                                      , saltmaster_inputs['saltmaster_password']
-                                      , saltmaster_inputs['saltmaster_region']
-                                      , saltmaster_inputs['saltmaster_auth_url']
-                                      , saltmaster_info['id'])
+    cmd = "nova " + nova_args + " delete %s" % saltmaster_info['id']
     retcode, result = commands.getstatusoutput(cmd)
     logging.info(cmd)
     logging.info(retcode)
