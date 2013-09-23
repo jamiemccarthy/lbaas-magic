@@ -148,8 +148,7 @@ if args.createkeypair and not os.path.exists( id_rsa_filename ):
 ##############################
 if args.createsaltmaster:
     logging.info("Creating vm instance for salt-master: %s..." %saltmaster_inputs['saltmaster_name'])
-    cmd = "nova " + nova_args + " boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %(
-                                      , saltmaster_inputs['saltmaster_flavor']
+    cmd = "nova " + nova_args + " boot --flavor=%s --image=%s --key_name=%s --security_groups=%s %s" %( saltmaster_inputs['saltmaster_flavor']
                                       , saltmaster_inputs['saltmaster_image']
                                       , key_comment
                                       , saltmaster_inputs['saltmaster_secgroup']
